@@ -92,7 +92,8 @@ Looking forward to connecting with you!
     setErrorMessage('');
 
     try {
-      const response = await fetch('http://localhost:3001/api/send-email', {
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+  const response = await fetch(`${apiUrl}/api/send-email`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -131,8 +132,8 @@ Looking forward to connecting with you!
     {
       icon: Mail,
       label: 'Email',
-      value: 'priyanshu.raj@example.com',
-      link: 'mailto:priyanshu.raj@example.com',
+      value: 'rajpriyanshu9078@gmail.com',
+      link: 'mailto:rajpriyanshu9078@gmail.com',
       description: 'Best way to reach me for opportunities'
     },
     {
@@ -164,7 +165,7 @@ Looking forward to connecting with you!
     },
     {
       name: 'LinkedIn',
-      url: 'https://linkedin.com/in/priyanshu-raj',
+      url: 'https://linkedin.com/in/priyanshudas00',
       description: 'Professional networking',
       color: 'bg-blue-600'
     },
