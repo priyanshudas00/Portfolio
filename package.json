@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "build:netlify": "vite build && npm run copy-functions",
-    "copy-functions": "xcopy netlify dist\\netlify /E /I /Y",
+    "copy-functions": "node copy-functions.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "dev:full": "concurrently \"npm run server\" \"npm run dev\"",

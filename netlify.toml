@@ -5,10 +5,8 @@
 [functions]
   directory = "netlify/functions"
 
-[[redirects]]
-  from = "/.netlify/functions/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
+# Functions are automatically served from /.netlify/functions/
+# No redirects needed for functions
 
 # Environment variables (set these in Netlify dashboard)
 # [build.environment]

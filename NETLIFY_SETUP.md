@@ -6,7 +6,7 @@ When deploying to Netlify, use these settings in your dashboard:
 
 ### 1. Build & Deploy Settings
 - **Base directory**: (leave blank - root directory)
-- **Build command**: `npm run build`
+- **Build command**: `npm run build:netlify` (this builds frontend AND copies functions)
 - **Publish directory**: `dist`
 
 ### 2. Environment Variables (in Netlify Dashboard)
@@ -17,7 +17,7 @@ Add these variables:
 - `GMAIL_APP_PASSWORD` = `your-app-password` (Gmail app password)
 
 ### 3. Functions Directory
-- **Functions directory**: `netlify/functions` (already configured in netlify.toml)
+- **Functions directory**: `netlify/functions` (automatically configured in netlify.toml)
 
 ## 🚀 Deployment Methods
 
