@@ -109,7 +109,18 @@ Looking forward to connecting with you!
         body: JSON.stringify(formData),
       });
 
-      const result = await response.json();
+      // Check if response is JSON and parse it
+      const contentType = response.headers.get('content-type');
+      let result;
+      
+      if (contentType && contentType.includes('application/json')) {
+        result = await response.json();
+      } else {
+        // Handle non-JSON responses (like HTML error pages)
+        const text = await response.text();
+        console.error('Non-JSON response received:', text);
+        throw new Error('Server returned an invalid response format');
+      }
 
       if (result.success) {
         setSubmitStatus('success');
@@ -130,7 +141,16 @@ Looking forward to connecting with you!
     } catch (error) {
       console.error('Error sending message:', error);
       setSubmitStatus('error');
-      setErrorMessage('Network error. Please check your connection and try again.');
+      
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      
+      if (errorMessage.includes('invalid response format')) {
+        setErrorMessage('Server configuration error. Please try again later or contact me directly.');
+      } else if (errorMessage.includes('Failed to fetch')) {
+        setErrorMessage('Network error. Please check your connection and try again.');
+      } else {
+        setErrorMessage('An unexpected error occurred. Please try again later.');
+      }
     } finally {
       setIsSubmitting(false);
     }
