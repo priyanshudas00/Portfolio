@@ -98,7 +98,7 @@ Looking forward to connecting with you!
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
           apiUrl = 'http://localhost:3001/api/send-email';
         } else {
-          apiUrl = 'https://' + window.location.host + '/.netlify/functions/api/send-email';
+          apiUrl = 'https://' + window.location.host + '/.netlify/functions/send-email';
         }
       }
       const response = await fetch(apiUrl, {
