@@ -110,13 +110,10 @@ Looking forward to connecting with you!
       });
 
       // Check if response is JSON and parse it
-      const contentType = response.headers.get('content-type');
       let result;
-      
-      if (contentType && contentType.includes('application/json')) {
+      try {
         result = await response.json();
-      } else {
-        // Handle non-JSON responses (like HTML error pages)
+      } catch (error) {
         const text = await response.text();
         console.error('Non-JSON response received:', text);
         throw new Error('Server returned an invalid response format');
