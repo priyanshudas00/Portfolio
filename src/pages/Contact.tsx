@@ -92,8 +92,16 @@ Looking forward to connecting with you!
     setErrorMessage('');
 
     try {
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-  const response = await fetch(`${apiUrl}/api/send-email`, {
+      // Use Netlify function endpoint in production, localhost in dev
+      let apiUrl = import.meta.env.VITE_API_URL;
+      if (!apiUrl) {
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          apiUrl = 'http://localhost:3001/api/send-email';
+        } else {
+          apiUrl = 'https://' + window.location.host + '/.netlify/functions/api/send-email';
+        }
+      }
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
