@@ -30,20 +30,35 @@ app.post('/api/send-email', async (req, res) => {
   try {
     const { name, email, subject, availability, message } = req.body;
 
+    // Log incoming request
+    console.log(`📧 Email request received from: ${name} <${email}>`);
+    console.log(`📋 Subject: ${subject}, Availability: ${availability || 'Not specified'}`);
+
     // Validate required fields
     if (!name || !email || !subject || !message) {
+      console.warn('❌ Validation failed: Missing required fields');
       return res.status(400).json({ 
         success: false, 
-        message: 'All required fields must be provided' 
+        message: 'Please fill in all required fields: Name, Email, Subject, and Message' 
       });
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
+      console.warn(`❌ Validation failed: Invalid email format - ${email}`);
       return res.status(400).json({ 
         success: false, 
-        message: 'Please provide a valid email address' 
+        message: 'Please provide a valid email address format (e.g., yourname@example.com)' 
+      });
+    }
+
+    // Validate message length
+    if (message.length < 10) {
+      console.warn('❌ Validation failed: Message too short');
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Please provide a more detailed message (at least 10 characters)' 
       });
     }
 
@@ -68,25 +83,43 @@ app.post('/api/send-email', async (req, res) => {
             </div>
           </div>
           <p style="color: #64748b; font-size: 12px; margin-top: 20px;">
-            This message was sent from your portfolio contact form.
+            This message was sent from your portfolio contact form at ${new Date().toLocaleString()}.
           </p>
         </div>
       `
     };
 
     // Send email
-    await transporter.sendMail(mailOptions);
+    console.log('📤 Attempting to send email...');
+    const info = await transporter.sendMail(mailOptions);
+    
+    console.log('✅ Email sent successfully!');
+    console.log(`📨 Message ID: ${info.messageId}`);
+    console.log(`📧 Recipient: ${process.env.GMAIL_USER}`);
 
     res.status(200).json({ 
       success: true, 
-      message: 'Email sent successfully!' 
+      message: 'Email sent successfully! I\'ll get back to you soon.' 
     });
 
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error('❌ Error sending email:', error);
+    
+    // More specific error messages
+    let errorMessage = 'Failed to send email. Please try again later.';
+    
+    if (error.code === 'EAUTH') {
+      errorMessage = 'Email authentication failed. Please check server configuration.';
+      console.error('🔐 Authentication error - Check Gmail app password configuration');
+    } else if (error.code === 'ECONNECTION') {
+      errorMessage = 'Connection to email service failed. Please check your internet connection.';
+      console.error('🌐 Connection error - Network issue detected');
+    }
+
     res.status(500).json({ 
       success: false, 
-      message: 'Failed to send email. Please try again later.' 
+      message: errorMessage,
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 });

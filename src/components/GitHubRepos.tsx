@@ -111,11 +111,11 @@ const GitHubRepos = () => {
   return (
     <div className="space-y-8">
       {/* GitHub Profile Summary */}
-      <div className="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-8 text-white shadow-2xl">
+      <div className="bg-gradient-to-r from-slate-900 to-slate-800 dark:from-yellow-900/30 dark:to-yellow-800/10 rounded-3xl p-8 text-white dark:text-yellow-200 shadow-2xl">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-2xl font-bold mb-2">GitHub Profile</h3>
-            <p className="text-slate-300">@priyanshudas00 • Live repositories and contributions</p>
+            <h3 className="text-2xl font-bold mb-2 text-white dark:text-yellow-300">GitHub Profile</h3>
+            <p className="text-slate-300 dark:text-yellow-200">@priyanshudas00 D Live repositories and contributions</p>
           </div>
           <a
             href="https://github.com/priyanshudas00"

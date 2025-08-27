@@ -59,27 +59,27 @@ const Blog = () => {
   const categories = ["All", "Technical Deep Dive", "Hackathon Experience", "Student Guide", "Business Analysis"];
 
   return (
-    <div className="min-h-screen py-20">
+    <div className="min-h-screen py-20 bg-white dark:bg-gradient-to-br dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            Technical <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Blog</span>
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-yellow-300 mb-6">
+            Technical <span className="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-yellow-400 dark:to-yellow-600 bg-clip-text text-transparent">Blog</span>
           </h1>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto mb-8">
             In-depth articles about full-stack development, AI tools, hackathon experiences, and lessons learned from building real-world applications as a computer science student.
           </p>
           
           <div className="flex flex-wrap justify-center gap-4">
-            <div className="flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full">
+            <div className="flex items-center bg-blue-100 dark:bg-yellow-900/30 text-blue-800 dark:text-yellow-300 px-4 py-2 rounded-full">
               <Code className="w-4 h-4 mr-2" />
               <span className="font-medium">Technical Tutorials</span>
             </div>
-            <div className="flex items-center bg-green-100 text-green-800 px-4 py-2 rounded-full">
+            <div className="flex items-center bg-green-100 dark:bg-yellow-900/30 text-green-800 dark:text-yellow-300 px-4 py-2 rounded-full">
               <Award className="w-4 h-4 mr-2" />
               <span className="font-medium">Hackathon Stories</span>
             </div>
-            <div className="flex items-center bg-purple-100 text-purple-800 px-4 py-2 rounded-full">
+            <div className="flex items-center bg-purple-100 dark:bg-yellow-900/30 text-purple-800 dark:text-yellow-300 px-4 py-2 rounded-full">
               <Calendar className="w-4 h-4 mr-2" />
               <span className="font-medium">Student Insights</span>
             </div>

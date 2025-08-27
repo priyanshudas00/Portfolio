@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ExternalLink, Code, Award, Calendar, Users, TrendingUp, Filter, Search, Star, Trophy, Target } from 'lucide-react';
 import ProjectCard from '../components/ProjectCard';
 import HackathonCard from '../components/HackathonCard';
@@ -78,7 +79,7 @@ const Projects = () => {
     }
   ];
 
-  const hackathons = [
+const hackathons = [
     {
       title: "AI4Community - SRE & Predictive Maintenance",
       position: "🥇 1st Place",
@@ -87,17 +88,19 @@ const Projects = () => {
       teams: "70+ teams",
       description: "Built comprehensive SRE platform with Prometheus monitoring, Grafana dashboards, automated RCA logic, and recovery workflows. Demonstrated real-world DevOps practices with fault injection and stress testing for system resilience.",
       tech: ["Node.js", "Prometheus", "Grafana", "DevOps", "SRE"],
-      achievement: "Winner among 70+ teams for system resilience and reliability excellence"
+      achievement: "Winner among 70+ teams for system resilience and reliability excellence",
+      images: ["Ai4com1.jpeg", "ai4com2.jpeg", "ai4com3.jpeg"]
     },
     {
       title: "Accessibility Suite for Next Billion Users",
-      position: "🏆 State Winner (2nd)",
-      event: "Srishti Hackathon 2025 - Acharya Institute",
+      position: "🏆 State Winner",
+      event: "Srishti Hackathon 2025 - Acharya Institute of Technology",
       date: "2025",
       teams: "110 teams",
       description: "36-hour build: multi-modal accessibility platform with Scheme Analyzer (PDF to regional languages), Grievance Handler (voice input), Bus Buddy Bol (transit helper), and Sign Language Translator using OpenCV and computer vision.",
       tech: ["OpenCV", "Dwan.io", "n8n", "TypeScript", "Google Maps API"],
-      achievement: "State-level recognition for inclusive design and social impact innovation"
+      achievement: "🏆 State Winner • Competition Winner • Accessibility Suite for Next Billion Users • Srishti Hackathon 2025 - Acharya Institute of Technology",
+      images: ["srishti1.jpeg", "srishti2.jpeg"]
     }
   ];
 
@@ -112,26 +115,26 @@ const Projects = () => {
   });
 
   return (
-    <div className="min-h-screen py-20">
+    <div className="min-h-screen py-20 bg-white dark:bg-gradient-to-br dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Enhanced Hero Section */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-100 to-indigo-100 border border-blue-200 text-blue-800 rounded-full text-sm font-semibold mb-8">
+          <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-yellow-900/30 dark:to-yellow-800/10 border border-blue-200 dark:border-yellow-700 text-blue-800 dark:text-yellow-300 rounded-full text-sm font-semibold mb-8">
             <Trophy className="w-4 h-4 mr-2" />
             Portfolio Showcase • 6+ Projects • 2 Hackathon Wins
           </div>
           
-          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-8">
-            My <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Projects</span>
+          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-yellow-300 mb-8">
+            My <span className="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-yellow-400 dark:to-yellow-600 bg-clip-text text-transparent">Projects</span>
           </h1>
           
-          <p className="text-xl md:text-2xl text-slate-600 max-w-4xl mx-auto mb-8 leading-relaxed">
+          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 max-w-4xl mx-auto mb-8 leading-relaxed">
             Full-stack applications, AI tools, and hackathon projects built with modern technologies and product-thinking approach. 
             Each project demonstrates end-to-end development skills and real-world problem solving.
           </p>
           
           <div className="flex flex-wrap justify-center gap-6 mb-12">
-            <div className="flex items-center bg-blue-100 text-blue-800 px-6 py-3 rounded-full border border-blue-200">
+            <div className="flex items-center bg-blue-100 dark:bg-yellow-900/30 text-blue-800 dark:text-yellow-300 px-6 py-3 rounded-full border border-blue-200 dark:border-yellow-700">
               <Code className="w-5 h-5 mr-2" />
               <span className="font-semibold">6+ Live Projects</span>
             </div>
@@ -198,6 +201,7 @@ const Projects = () => {
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
+                  title="Select project category" // Added title for accessibility
                   className="px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white"
                 >
                   {categories.map(category => (

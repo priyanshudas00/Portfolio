@@ -54,7 +54,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   };
 
   return (
-    <div className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-slate-100 hover:border-blue-200 transform hover:-translate-y-2">
+  <div className="group relative bg-white dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-slate-900/80 rounded-3xl shadow-lg dark:shadow-yellow-400/20 hover:shadow-2xl transition-all duration-500 overflow-hidden border border-slate-100 dark:border-slate-800 hover:border-blue-200 dark:hover:border-yellow-400 transform hover:-translate-y-2 backdrop-blur-md">
       {/* Image Section */}
       <div className="relative overflow-hidden h-56">
         <img
@@ -106,18 +106,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       
       {/* Content Section */}
       <div className="p-8">
-        <h3 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors leading-tight">
+  <h3 className="text-2xl font-bold text-slate-900 dark:text-yellow-300 mb-4 group-hover:text-blue-600 dark:group-hover:text-yellow-400 transition-colors leading-tight">
           {title}
         </h3>
         
-        <p className="text-slate-600 mb-6 leading-relaxed line-clamp-3">
+  <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed line-clamp-3">
           {description}
         </p>
         
         {/* Impact Badge */}
-        <div className="flex items-center mb-6 p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
-          <TrendingUp className="w-5 h-5 text-green-600 mr-3 flex-shrink-0" />
-          <span className="text-sm font-semibold text-green-700">
+        <div className="flex items-center mb-6 p-3 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-yellow-900/30 dark:to-yellow-800/10 rounded-xl border border-green-200 dark:border-yellow-700">
+          <TrendingUp className="w-5 h-5 text-green-600 dark:text-yellow-400 mr-3 flex-shrink-0" />
+          <span className="text-sm font-semibold text-green-700 dark:text-yellow-200">
             {impact}
           </span>
         </div>
@@ -127,7 +127,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {tech.map((item, index) => (
             <span
               key={index}
-              className="inline-block px-3 py-1.5 bg-slate-100 text-slate-700 text-xs font-medium rounded-full hover:bg-blue-100 hover:text-blue-700 transition-colors"
+              className="inline-block px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-yellow-200 text-xs font-medium rounded-full hover:bg-blue-100 dark:hover:bg-yellow-400 hover:text-blue-700 dark:hover:text-slate-900 transition-colors"
             >
               {item}
             </span>
@@ -141,7 +141,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               href={github}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 inline-flex items-center justify-center px-4 py-3 bg-slate-900 text-white rounded-xl text-sm font-semibold hover:bg-slate-800 transition-all duration-300 group/btn"
+              className="flex-1 inline-flex items-center justify-center px-4 py-3 bg-slate-900 text-white dark:bg-yellow-400 dark:text-slate-900 rounded-xl text-sm font-semibold hover:bg-slate-800 dark:hover:bg-yellow-500 transition-all duration-300 group/btn"
             >
               <Code className="w-4 h-4 mr-2 group-hover/btn:rotate-12 transition-transform" />
               View Code
@@ -152,14 +152,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               href={demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 inline-flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-xl text-sm font-semibold hover:bg-blue-700 transition-all duration-300 group/btn"
+              className="flex-1 inline-flex items-center justify-center px-4 py-3 bg-blue-600 text-white dark:bg-yellow-400 dark:text-slate-900 rounded-xl text-sm font-semibold hover:bg-blue-700 dark:hover:bg-yellow-500 transition-all duration-300 group/btn"
             >
               <ExternalLink className="w-4 h-4 mr-2 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
               Live Demo
             </a>
           )}
           {!demo && !github && (
-            <div className="flex-1 inline-flex items-center justify-center px-4 py-3 bg-slate-100 text-slate-500 rounded-xl text-sm font-semibold cursor-not-allowed">
+            <div className="flex-1 inline-flex items-center justify-center px-4 py-3 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-yellow-300 rounded-xl text-sm font-semibold cursor-not-allowed">
               <Calendar className="w-4 h-4 mr-2" />
               Coming Soon
             </div>

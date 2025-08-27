@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Code, User, Award, Sparkles } from 'lucide-react';
+import { Menu, X, Code, User, Award, Sparkles, Sun, Moon } from 'lucide-react';
 
-const Header = () => {
+interface HeaderProps {
+  toggleTheme: () => void;
+  theme: string;
+}
+
+const Header = ({ toggleTheme, theme }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
@@ -29,8 +34,8 @@ const Header = () => {
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 ${
       isScrolled 
-        ? 'backdrop-blur-xl bg-white/90 border-b border-slate-200/50 shadow-lg' 
-        : 'backdrop-blur-md bg-white/80 border-b border-slate-200/30'
+        ? 'backdrop-blur-xl bg-white/90 dark:bg-slate-900/90 border-b border-slate-200/50 dark:border-slate-700/50 shadow-lg' 
+        : 'backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/30 dark:border-slate-700/30'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
@@ -58,42 +63,52 @@ const Header = () => {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-2">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`relative px-4 py-2.5 rounded-xl font-semibold transition-all duration-300 ${
-                  isActive(item.href)
-                    ? 'bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 shadow-md'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                }`}
-              >
-                {item.name}
-                {isActive(item.href) && (
-                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-blue-600 rounded-full"></div>
-                )}
-              </Link>
-            ))}
-            
-            {/* CTA Button */}
-            <Link
-              to="/contact"
-              className="ml-4 inline-flex items-center px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+          <div className="flex items-center space-x-4">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-yellow-300 transition-colors border border-slate-200 dark:border-slate-700"
+              aria-label="Toggle theme"
             >
-              <User className="w-4 h-4 mr-2" />
-              Hire Me
-            </Link>
-          </nav>
+              {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+            </button>
 
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-3 rounded-xl hover:bg-slate-100 transition-colors"
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center space-x-2">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`relative px-4 py-2.5 rounded-xl font-semibold transition-all duration-300 ${
+                    isActive(item.href)
+                      ? 'bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 shadow-md dark:bg-gradient-to-r dark:from-slate-800 dark:to-slate-900 dark:text-yellow-300'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-200 dark:hover:text-yellow-300 dark:hover:bg-slate-800'
+                  }`}
+                >
+                  {item.name}
+                  {isActive(item.href) && (
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-blue-600 dark:bg-yellow-400 rounded-full"></div>
+                  )}
+                </Link>
+              ))}
+              {/* CTA Button */}
+              <Link
+                to="/contact"
+                className="ml-4 inline-flex items-center px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl dark:bg-gradient-to-r dark:from-yellow-400 dark:to-yellow-600 dark:text-slate-900"
+              >
+                <User className="w-4 h-4 mr-2" />
+                Hire Me
+              </Link>
+            </nav>
+
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-3 rounded-xl hover:bg-slate-100 transition-colors"
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}

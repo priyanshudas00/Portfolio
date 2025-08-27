@@ -89,30 +89,30 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen py-20">
+    <div className="min-h-screen py-20 bg-white dark:bg-gradient-to-br dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Enhanced Hero Section */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-100 to-indigo-100 border border-blue-200 text-blue-800 rounded-full text-sm font-semibold mb-8">
+          <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-yellow-900/30 dark:to-yellow-800/10 border border-blue-200 dark:border-yellow-700 text-blue-800 dark:text-yellow-300 rounded-full text-sm font-semibold mb-8">
             <BookOpen className="w-4 h-4 mr-2" />
             My Story & Background
           </div>
           
-          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-8">
-            About <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Priyanshu Raj</span>
+          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-yellow-300 mb-8">
+            About <span className="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-yellow-400 dark:to-yellow-600 bg-clip-text text-transparent">Priyanshu Raj</span>
           </h1>
           
           <div className="max-w-5xl mx-auto">
-            <p className="text-2xl text-slate-700 mb-8 leading-relaxed font-medium">
-              I'm a <strong className="text-blue-600">20-year-old engineering student from Darbhanga</strong> with a strong bias for building things that work in production.
+            <p className="text-2xl text-slate-700 dark:text-yellow-200 mb-8 leading-relaxed font-medium">
+              I'm a <strong className="text-blue-600 dark:text-yellow-400">20-year-old engineering student from Darbhanga</strong> with a strong bias for building things that work in production.
             </p>
-            <p className="text-xl text-slate-600 mb-8 leading-relaxed">
-              My core strengths are <span className="font-semibold text-blue-600">full-stack web development</span>, 
-              <span className="font-semibold text-indigo-600"> rapid prototyping</span>, and 
-              <span className="font-semibold text-purple-600"> product-driven engineering</span>.
+            <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
+              My core strengths are <span className="font-semibold text-blue-600 dark:text-yellow-400">full-stack web development</span>, 
+              <span className="font-semibold text-indigo-600 dark:text-yellow-300"> rapid prototyping</span>, and 
+              <span className="font-semibold text-purple-600 dark:text-yellow-200"> product-driven engineering</span>.
             </p>
-            <p className="text-lg text-slate-500 leading-relaxed">
-              I balance college life (CSE — Acharya Institute of Technology) with multiple practical projects — 
+            <p className="text-lg text-slate-500 dark:text-yellow-200 leading-relaxed">
+              I balance college life (CSE D Acharya Institute of Technology) with multiple practical projects D 
               from AI Resume Analyzers and Job Portals to Social Media Schedulers and Event Management systems. 
               My aim: secure a role that lets me contribute to product-led engineering while continuing to build and learn.
             </p>

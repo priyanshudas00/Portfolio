@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, ExternalLink, Calendar, Clock } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, ExternalLink, Calendar, Clock, Loader, CheckCircle, XCircle, MessageCircle, X } from 'lucide-react';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -9,22 +9,87 @@ const Contact = () => {
     message: '',
     availability: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
+    // Clear any previous error/success status when user starts typing
+    if (submitStatus !== 'idle') {
+      setSubmitStatus('idle');
+      setErrorMessage('');
+    }
+  };
+
+  const validateForm = () => {
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      setErrorMessage('Please fill in all required fields');
+      return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setErrorMessage('Please provide a valid email address format (e.g., yourname@example.com)');
+      return false;
+    }
+
+    if (formData.message.length < 10) {
+      setErrorMessage('Please provide a more detailed message (at least 10 characters)');
+      return false;
+    }
+
+    return true;
+  };
+
+  const generateWhatsAppMessage = () => {
+    const { name, email, subject, availability, message } = formData;
+    const whatsappMessage = `
+Hello Priyanshu!
+
+I'm reaching out from your portfolio website:
+
+*Name:* ${name}
+*Email:* ${email}
+*Subject:* ${subject}
+${availability ? `*Availability:* ${availability}\n` : ''}
+*Message:*
+${message}
+
+Looking forward to connecting with you!
+    `.trim();
+    
+    return encodeURIComponent(whatsappMessage);
+  };
+
+  const openWhatsApp = () => {
+    const message = generateWhatsAppMessage();
+    const whatsappUrl = `https://wa.me/919229583900?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+    setShowWhatsAppModal(false);
+  };
+
+  const handleWhatsAppOption = (option: 'mail' | 'whatsapp' | 'both') => {
+    if (option === 'whatsapp' || option === 'both') {
+      openWhatsApp();
+    }
+    setShowWhatsAppModal(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Basic validation
-    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
-      alert('Please fill in all required fields');
+    if (!validateForm()) {
       return;
     }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setErrorMessage('');
 
     try {
       const response = await fetch('http://localhost:3001/api/send-email', {
@@ -38,7 +103,9 @@ const Contact = () => {
       const result = await response.json();
 
       if (result.success) {
-        alert('Message sent successfully! I\'ll get back to you soon.');
+        setSubmitStatus('success');
+        // Show WhatsApp modal
+        setShowWhatsAppModal(true);
         // Reset form
         setFormData({
           name: '',
@@ -48,11 +115,15 @@ const Contact = () => {
           availability: ''
         });
       } else {
-        alert('Failed to send message. Please try again later.');
+        setSubmitStatus('error');
+        setErrorMessage(result.message || 'Failed to send message. Please try again later.');
       }
     } catch (error) {
       console.error('Error sending message:', error);
-      alert('Failed to send message. Please try again later.');
+      setSubmitStatus('error');
+      setErrorMessage('Network error. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -227,12 +298,47 @@ const Contact = () => {
                   />
                 </div>
                 
+                {/* Status Messages */}
+                {errorMessage && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <div className="flex items-center">
+                      <XCircle className="w-5 h-5 text-red-600 mr-2" />
+                      <span className="text-red-800 font-medium">{errorMessage}</span>
+                    </div>
+                  </div>
+                )}
+
+                {submitStatus === 'success' && (
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <div className="flex items-center">
+                      <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                      <span className="text-green-800 font-medium">
+                        Message sent successfully! I'll get back to you soon.
+                      </span>
+                    </div>
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center"
+                  disabled={isSubmitting}
+                  className={`w-full py-4 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center ${
+                    isSubmitting
+                      ? 'bg-blue-400 cursor-not-allowed'
+                      : 'bg-blue-600 hover:bg-blue-700 text-white'
+                  }`}
                 >
-                  <Send className="w-5 h-5 mr-2" />
-                  Send Message
+                  {isSubmitting ? (
+                    <>
+                      <Loader className="w-5 h-5 mr-2 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5 mr-2" />
+                      Send Message
+                    </>
+                  )}
                 </button>
               </form>
             </div>
@@ -353,6 +459,63 @@ const Contact = () => {
           </div>
         </div>
       </div>
+
+      {/* WhatsApp Modal */}
+      {showWhatsAppModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold text-slate-900">Choose Delivery Method</h3>
+              <button
+                onClick={() => setShowWhatsAppModal(false)}
+                className="text-slate-400 hover:text-slate-600 transition-colors"
+                title="Close modal"
+                aria-label="Close modal"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            
+            <p className="text-slate-600 mb-6">
+              Your message has been sent to email! Would you like to also send via WhatsApp?
+            </p>
+
+            <div className="space-y-4">
+              <button
+                onClick={() => handleWhatsAppOption('mail')}
+                className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors flex items-center justify-center"
+              >
+                <Mail className="w-5 h-5 mr-2" />
+                Email Only (Already Sent)
+              </button>
+
+              <button
+                onClick={() => handleWhatsAppOption('whatsapp')}
+                className="w-full py-3 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors flex items-center justify-center"
+              >
+                <MessageCircle className="w-5 h-5 mr-2" />
+                WhatsApp Only
+              </button>
+
+              <button
+                onClick={() => handleWhatsAppOption('both')}
+                className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white rounded-lg font-semibold transition-colors flex items-center justify-center"
+              >
+                <div className="flex items-center">
+                  <Mail className="w-4 h-4 mr-1" />
+                  <span className="mx-1">+</span>
+                  <MessageCircle className="w-4 h-4 ml-1" />
+                </div>
+                <span className="ml-2">Both (Email + WhatsApp)</span>
+              </button>
+            </div>
+
+            <p className="text-sm text-slate-500 mt-4 text-center">
+              WhatsApp will open in a new tab with a pre-filled message
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

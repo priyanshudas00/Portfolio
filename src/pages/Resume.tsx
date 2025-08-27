@@ -70,27 +70,27 @@ const Resume = () => {
   ];
 
   return (
-    <div className="min-h-screen py-20">
+    <div className="min-h-screen py-20 bg-white dark:bg-gradient-to-br dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-yellow-300 mb-4">
+            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-yellow-400 dark:to-yellow-600 bg-clip-text text-transparent">
               Priyanshu Raj
             </span>
           </h1>
-          <p className="text-xl text-slate-600 mb-6">
+          <p className="text-xl text-slate-600 dark:text-slate-300 mb-6">
             Computer Science Engineering Student | Full-Stack Developer | AI Tools Builder
           </p>
           
-          <div className="flex flex-wrap justify-center gap-6 text-slate-600 mb-8">
+          <div className="flex flex-wrap justify-center gap-6 text-slate-600 dark:text-yellow-200 mb-8">
             <div className="flex items-center">
               <MapPin className="w-4 h-4 mr-2" />
               <span>Darbhanga, Bihar, India</span>
             </div>
             <div className="flex items-center">
               <Mail className="w-4 h-4 mr-2" />
-              <span>priyanshu.raj@example.com</span>
+              <span>rajpriyanshu9078@gmail.com</span>
             </div>
             <div className="flex items-center">
               <Calendar className="w-4 h-4 mr-2" />
@@ -99,7 +99,7 @@ const Resume = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <button className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+            <button className="inline-flex items-center px-6 py-3 bg-blue-600 text-white dark:bg-yellow-400 dark:text-slate-900 rounded-lg font-semibold hover:bg-blue-700 dark:hover:bg-yellow-500 transition-colors">
               <Download className="w-4 h-4 mr-2" />
               Download PDF Resume
             </button>
@@ -107,7 +107,7 @@ const Resume = () => {
               href="https://github.com/priyanshudas00"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-6 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors"
+              className="inline-flex items-center px-6 py-3 bg-slate-900 text-white dark:bg-yellow-400 dark:text-slate-900 rounded-lg font-semibold hover:bg-slate-800 dark:hover:bg-yellow-500 transition-colors"
             >
               <ExternalLink className="w-4 h-4 mr-2" />
               GitHub Profile
