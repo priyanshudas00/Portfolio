@@ -103,22 +103,23 @@ var handler = async function(event, context) {
     }
   } catch (error) {
     console.error("Error handling view count:", error);
-    let fallbackCount = 119;
-    if (event.httpMethod === "GET") {
+    let errorMessage = "Failed to process view count request";
+    if (error.code === "ENOENT") {
+      errorMessage = "View count data file not found. Please contact support.";
+    } else if (error instanceof SyntaxError) {
+      errorMessage = "View count data is corrupted. Please contact support to reset the counter.";
+    } else if (error.code === "EACCES") {
+      errorMessage = "Permission denied accessing view count data.";
+    }
+    if (event.httpMethod === "GET" || event.httpMethod === "POST") {
       return {
-        statusCode: 200,
+        statusCode: 500,
         headers: corsHeaders,
         body: JSON.stringify({
-          totalViews: fallbackCount,
-          lastUpdated: (/* @__PURE__ */ new Date()).toISOString()
+          success: false,
+          message: errorMessage,
+          error: process.env.NODE_ENV === "development" ? error.message : void 0
         })
-      };
-    } else if (event.httpMethod === "POST") {
-      fallbackCount += 1;
-      return {
-        statusCode: 200,
-        headers: corsHeaders,
-        body: JSON.stringify({ success: true, totalViews: fallbackCount })
       };
     } else {
       return {
