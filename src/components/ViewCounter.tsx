@@ -10,8 +10,12 @@ const ViewCounter: React.FC = () => {
   useEffect(() => {
     const trackView = async () => {
       try {
+        // Determine API base URL based on environment
+        const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const apiBaseUrl = isDevelopment ? 'http://localhost:3001/api' : 'https://priyanshudas.netlify.app/.netlify/functions';
+        
         // First, increment the view count on the server
-        const incrementResponse = await fetch('http://localhost:3001/api/view-count', {
+        const incrementResponse = await fetch(`${apiBaseUrl}/view-count`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -22,7 +26,7 @@ const ViewCounter: React.FC = () => {
           const incrementData = await incrementResponse.json();
           
           // Then, get the updated view count
-          const viewResponse = await fetch('http://localhost:3001/api/view-count');
+          const viewResponse = await fetch(`${apiBaseUrl}/view-count`);
           if (viewResponse.ok) {
             const viewData = await viewResponse.json();
             setViewCount(viewData.totalViews);
