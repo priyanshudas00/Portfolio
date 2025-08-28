@@ -35,7 +35,8 @@ const ViewCounter: React.FC = () => {
             console.error('Failed to fetch view count');
           }
         } else {
-          console.error('Failed to increment view count');
+          const errorData = await incrementResponse.json();
+          console.error('Failed to increment view count:', errorData);
         }
       } catch (error) {
         console.error('Error tracking view:', error);

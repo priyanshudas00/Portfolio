@@ -84,16 +84,25 @@ var handler = async function(event, context) {
         body: JSON.stringify(viewCount)
       };
     } else if (event.httpMethod === "POST") {
-      const data = import_fs.default.readFileSync(viewCountFilePath, "utf8");
-      const viewCount = JSON.parse(data);
-      viewCount.totalViews += 1;
-      viewCount.lastUpdated = (/* @__PURE__ */ new Date()).toISOString();
-      import_fs.default.writeFileSync(viewCountFilePath, JSON.stringify(viewCount, null, 2));
-      return {
-        statusCode: 200,
-        headers: corsHeaders,
-        body: JSON.stringify({ success: true, totalViews: viewCount.totalViews })
-      };
+      try {
+        const data = import_fs.default.readFileSync(viewCountFilePath, "utf8");
+        const viewCount = JSON.parse(data);
+        viewCount.totalViews += 1;
+        viewCount.lastUpdated = (/* @__PURE__ */ new Date()).toISOString();
+        import_fs.default.writeFileSync(viewCountFilePath, JSON.stringify(viewCount, null, 2));
+        return {
+          statusCode: 200,
+          headers: corsHeaders,
+          body: JSON.stringify({ success: true, totalViews: viewCount.totalViews })
+        };
+      } catch (postError) {
+        console.error("Error incrementing view count:", postError);
+        return {
+          statusCode: 500,
+          headers: corsHeaders,
+          body: JSON.stringify({ success: false, message: "Failed to increment view count", error: postError.message })
+        };
+      }
     } else {
       return {
         statusCode: 405,
