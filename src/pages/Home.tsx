@@ -50,7 +50,8 @@ const Home = () => {
       teams: "70+ teams",
       description: "Built comprehensive SRE platform with Prometheus monitoring, Grafana dashboards, automated RCA logic, and recovery workflows. Demonstrated real-world DevOps practices with fault injection and stress testing.",
       tech: ["Node.js", "Prometheus", "Grafana", "DevOps", "SRE"],
-      achievement: "Winner among 70+ teams for system resilience and reliability"
+      achievement: "Winner among 70+ teams for system resilience and reliability",
+      images: ['Ai4com1.jpeg', 'ai4com2.jpeg', 'ai4com3.jpeg']
     },
     {
       title: "Accessibility Suite for Next Billion Users",
@@ -60,7 +61,8 @@ const Home = () => {
       teams: "110 teams",
       description: "36-hour build: multi-modal platform with Scheme Analyzer, Grievance Handler, Bus Buddy Bol, and Sign Language Translator using voice, vision, and regional language support.",
       tech: ["OpenCV", "Dwan.io", "n8n", "TypeScript", "Google Maps API"],
-      achievement: "State-level recognition for inclusive design and social impact"
+      achievement: "State-level recognition for inclusive design and social impact",
+      images: ['srishti1.jpeg', 'srishti2.jpeg']
     }
   ];
 

@@ -62,7 +62,7 @@ const Resume = () => {
 
   const achievements = [
     "🥇 1st Place - AI4Community Hackathon (May 2025) - 70+ teams",
-    "🏆 State Winner (2nd) - Srishti Hackathon 2025 - 110 teams",
+    "🏆 State Winner - Srishti Hackathon 2025 - 110 teams",
     "🚀 Built and deployed 6+ production-ready web applications",
     "⚡ AI Resume Analyzer: 40% reduction in screening time",
     "📱 Full-stack Job Portal with real-time features",
@@ -86,7 +86,7 @@ const Resume = () => {
           <div className="flex flex-wrap justify-center gap-6 text-slate-600 dark:text-yellow-200 mb-8">
             <div className="flex items-center">
               <MapPin className="w-4 h-4 mr-2" />
-              <span>Darbhanga, Bihar, India</span>
+              <span>Bengaluru, Karnataka, India</span>
             </div>
             <div className="flex items-center">
               <Mail className="w-4 h-4 mr-2" />
@@ -246,8 +246,8 @@ const Resume = () => {
                   <span className="text-sm text-slate-500">Professional</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-slate-700">Kannada/Tulu</span>
-                  <span className="text-sm text-slate-500">Basic</span>
+                  <span className="text-slate-700">Maithili</span>
+                  <span className="text-sm text-slate-500">Native</span>
                 </div>
               </div>
             </div>
@@ -257,7 +257,6 @@ const Resume = () => {
               <div className="space-y-2 text-slate-700">
                 <p><strong>Duration:</strong> 4-6 months internship</p>
                 <p><strong>Location:</strong> Remote / Hybrid / On-site</p>
-                <p><strong>Expected CTC:</strong> 7+ LPA (negotiable)</p>
                 <p><strong>Notice Period:</strong> Immediate</p>
               </div>
             </div>
