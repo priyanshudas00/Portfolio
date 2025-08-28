@@ -130,13 +130,14 @@ const Home = () => {
                 View Projects
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link
-                to="/resume"
+              <a
+                href="/src/media/resume/masterResume.pdf"
+                download
                 className="inline-flex items-center px-8 py-4 bg-white text-slate-700 rounded-2xl font-semibold border-2 border-slate-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 hover:bg-slate-50"
               >
                 <Download className="w-5 h-5 mr-2" />
                 Download Resume
-              </Link>
+              </a>
               <Link
                 to="/contact"
                 className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl font-semibold hover:from-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-300 shadow-xl"

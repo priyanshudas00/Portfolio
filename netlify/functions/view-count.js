@@ -1,13 +1,27 @@
-export async function handler(event, context) {
-  const VIEW_COUNT_KEY = 'totalViews';
+import fetch from 'node-fetch';
 
-  // Netlify provides KV storage via environment variable bindings
-  const kv = context.env.VIEW_COUNT_KV;
+const UPSTASH_REDIS_REST_URL = process.env.UPSTASH_REDIS_REST_URL;
+const UPSTASH_REDIS_REST_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
+const VIEW_COUNT_KEY = 'totalViews';
+
+export async function handler(event) {
+  if (!UPSTASH_REDIS_REST_URL || !UPSTASH_REDIS_REST_TOKEN) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ success: false, message: 'Upstash Redis credentials not configured' }),
+    };
+  }
+
+  const headers = {
+    Authorization: `Bearer ${UPSTASH_REDIS_REST_TOKEN}`,
+    'Content-Type': 'application/json',
+  };
 
   if (event.httpMethod === 'GET') {
     try {
-      const totalViewsStr = await kv.get(VIEW_COUNT_KEY);
-      const totalViews = totalViewsStr ? parseInt(totalViewsStr) : 100;
+      const response = await fetch(`${UPSTASH_REDIS_REST_URL}/get/${VIEW_COUNT_KEY}`, { headers });
+      const data = await response.json();
+      const totalViews = data.result !== null ? parseInt(data.result) : 100;
       return {
         statusCode: 200,
         body: JSON.stringify({ totalViews }),
@@ -20,10 +34,13 @@ export async function handler(event, context) {
     }
   } else if (event.httpMethod === 'POST') {
     try {
-      const totalViewsStr = await kv.get(VIEW_COUNT_KEY);
-      let totalViews = totalViewsStr ? parseInt(totalViewsStr) : 100;
-      totalViews += 1;
-      await kv.put(VIEW_COUNT_KEY, totalViews.toString());
+      // Increment the view count atomically
+      const response = await fetch(`${UPSTASH_REDIS_REST_URL}/incr/${VIEW_COUNT_KEY}`, {
+        method: 'POST',
+        headers,
+      });
+      const data = await response.json();
+      const totalViews = data.result !== null ? parseInt(data.result) : 100;
       return {
         statusCode: 200,
         body: JSON.stringify({ totalViews }),
