@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ViewCounter from './components/ViewCounter';
 import Home from './pages/Home';
 import About from './pages/About';
 import Projects from './pages/Projects';
@@ -31,7 +32,8 @@ function App() {
     <Router>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950">
         <Header toggleTheme={toggleTheme} theme={theme} />
-        <main>
+        <main> 
+          <ViewCounter />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
