@@ -12,7 +12,8 @@ const ViewCounter: React.FC = () => {
       try {
         // Determine API base URL based on environment
         const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        const apiBaseUrl = isDevelopment ? 'http://localhost:3001/api' : 'https://priyanshudas.netlify.app/.netlify/functions';
+        // For Netlify functions, use relative path in production
+        const apiBaseUrl = isDevelopment ? 'http://localhost:3001/api' : '/.netlify/functions';
         
         // First, increment the view count on the server
         const incrementResponse = await fetch(`${apiBaseUrl}/view-count`, {

@@ -22,12 +22,46 @@ export const handler = async function(event, context) {
   // For Netlify deployment, we need to use a different path structure
   let viewCountFilePath;
   
-  if (process.env.NETLIFY) {
+  // Debug logging
+  console.log('NETLIFY environment:', process.env.NETLIFY);
+  console.log('CONTEXT environment:', process.env.CONTEXT);
+  console.log('SITE_URL environment:', process.env.URL);
+  console.log('DEPLOY_URL environment:', process.env.DEPLOY_URL);
+  console.log('Current working directory:', process.cwd());
+  
+  // More robust Netlify detection
+  const isNetlify = process.env.NETLIFY === 'true' || 
+                    process.env.CONTEXT === 'production' || 
+                    process.env.CONTEXT === 'deploy-preview' ||
+                    process.env.URL?.includes('netlify.app') ||
+                    process.env.DEPLOY_URL?.includes('netlify.app');
+  
+  // Check if dist/server directory exists (Netlify deployment)
+  const distServerPath = path.join(process.cwd(), 'dist', 'server', 'viewCount.json');
+  const serverPath = path.join(process.cwd(), 'server', 'viewCount.json');
+  
+  if (isNetlify && fs.existsSync(distServerPath)) {
     // Running on Netlify - use the dist/server directory
-    viewCountFilePath = path.join(process.cwd(), 'dist', 'server', 'viewCount.json');
+    viewCountFilePath = distServerPath;
+    console.log('Using Netlify path:', viewCountFilePath);
+  } else if (fs.existsSync(serverPath)) {
+    // Running locally or Netlify CLI - use the server directory
+    viewCountFilePath = serverPath;
+    console.log('Using local path:', viewCountFilePath);
   } else {
-    // Running locally with Netlify CLI - use the server directory
-    viewCountFilePath = path.join(process.cwd(), 'server', 'viewCount.json');
+    // Fallback: try to create the file if it doesn't exist
+    viewCountFilePath = distServerPath;
+    console.log('Using fallback path:', viewCountFilePath);
+    
+    // Create the file with initial data if it doesn't exist
+    if (!fs.existsSync(viewCountFilePath)) {
+      const initialData = {
+        totalViews: 100,
+        lastUpdated: new Date().toISOString()
+      };
+      fs.writeFileSync(viewCountFilePath, JSON.stringify(initialData, null, 2));
+      console.log('Created initial view count file');
+    }
   }
 
   try {

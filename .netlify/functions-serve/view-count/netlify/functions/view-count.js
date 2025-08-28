@@ -48,10 +48,31 @@ var handler = async function(event, context) {
     };
   }
   let viewCountFilePath;
-  if (process.env.NETLIFY) {
-    viewCountFilePath = import_path.default.join(process.cwd(), "dist", "server", "viewCount.json");
+  console.log("NETLIFY environment:", process.env.NETLIFY);
+  console.log("CONTEXT environment:", process.env.CONTEXT);
+  console.log("SITE_URL environment:", process.env.URL);
+  console.log("DEPLOY_URL environment:", process.env.DEPLOY_URL);
+  console.log("Current working directory:", process.cwd());
+  const isNetlify = process.env.NETLIFY === "true" || process.env.CONTEXT === "production" || process.env.CONTEXT === "deploy-preview" || process.env.URL?.includes("netlify.app") || process.env.DEPLOY_URL?.includes("netlify.app");
+  const distServerPath = import_path.default.join(process.cwd(), "dist", "server", "viewCount.json");
+  const serverPath = import_path.default.join(process.cwd(), "server", "viewCount.json");
+  if (isNetlify && import_fs.default.existsSync(distServerPath)) {
+    viewCountFilePath = distServerPath;
+    console.log("Using Netlify path:", viewCountFilePath);
+  } else if (import_fs.default.existsSync(serverPath)) {
+    viewCountFilePath = serverPath;
+    console.log("Using local path:", viewCountFilePath);
   } else {
-    viewCountFilePath = import_path.default.join(process.cwd(), "server", "viewCount.json");
+    viewCountFilePath = distServerPath;
+    console.log("Using fallback path:", viewCountFilePath);
+    if (!import_fs.default.existsSync(viewCountFilePath)) {
+      const initialData = {
+        totalViews: 100,
+        lastUpdated: (/* @__PURE__ */ new Date()).toISOString()
+      };
+      import_fs.default.writeFileSync(viewCountFilePath, JSON.stringify(initialData, null, 2));
+      console.log("Created initial view count file");
+    }
   }
   try {
     if (event.httpMethod === "GET") {
