@@ -17,8 +17,8 @@ const Projects = () => {
       status: "MVP Complete",
       impact: "40% reduction in screening time",
       image: "https://images.pexels.com/photos/8849295/pexels-photo-8849295.jpeg",
-      github: "https://github.com/priyanshudas00",
-      demo: "#",
+      github: "https://github.com/priyanshudas00/ai-resume-analyzer",
+      demo: "airesumeanalyzerr.streamlit.app/",
       category: "AI/ML"
     },
     {
@@ -87,7 +87,7 @@ const hackathons = [
       date: "9-10 May 2025",
       teams: "70+ teams",
       description: "Built comprehensive SRE platform with Prometheus monitoring, Grafana dashboards, automated RCA logic, and recovery workflows. Demonstrated real-world DevOps practices with fault injection and stress testing for system resilience.",
-      tech: ["Node.js", "Prometheus", "Grafana", "DevOps", "SRE"],
+      tech: ["Node.js", "Prometheus", "Grafana", "DevOps", "SRE", "Kubernetes"],
       achievement: "Winner among 70+ teams for system resilience and reliability excellence",
       images: ["Ai4com1.jpeg", "ai4com2.jpeg", "ai4com3.jpeg"]
     },
@@ -95,10 +95,10 @@ const hackathons = [
       title: "Accessibility Suite for Next Billion Users",
       position: "🏆 State Winner",
       event: "Srishti Hackathon 2025 - Acharya Institute of Technology",
-      date: "2025",
+      date: "23- 25 May 2025",
       teams: "110 teams",
       description: "36-hour build: multi-modal accessibility platform with Scheme Analyzer (PDF to regional languages), Grievance Handler (voice input), Bus Buddy Bol (transit helper), and Sign Language Translator using OpenCV and computer vision.",
-      tech: ["OpenCV", "Dwan.io", "n8n", "TypeScript", "Google Maps API"],
+      tech: ["OpenCV", "Dwani.io", "n8n", "TypeScript", "Google Maps API"],
       achievement: "🏆 State Winner • Competition Winner • Accessibility Suite for Next Billion Users • Srishti Hackathon 2025 - Acharya Institute of Technology",
       images: ["srishti1.jpeg", "srishti2.jpeg"]
     }
