@@ -23,13 +23,25 @@ function copyDir(src, dest) {
 }
 
 // Copy netlify directory to dist/netlify
-const sourceDir = './netlify';
-const destDir = './dist/netlify';
+const netlifySourceDir = './netlify';
+const netlifyDestDir = './dist/netlify';
 
-if (existsSync(sourceDir)) {
+if (existsSync(netlifySourceDir)) {
   console.log('Copying netlify functions to dist directory...');
-  copyDir(sourceDir, destDir);
+  copyDir(netlifySourceDir, netlifyDestDir);
   console.log('Functions copied successfully!');
 } else {
   console.log('Netlify directory not found, skipping copy...');
+}
+
+// Copy server directory to dist/server (for view count data)
+const serverSourceDir = './server';
+const serverDestDir = './dist/server';
+
+if (existsSync(serverSourceDir)) {
+  console.log('Copying server directory to dist directory...');
+  copyDir(serverSourceDir, serverDestDir);
+  console.log('Server directory copied successfully!');
+} else {
+  console.log('Server directory not found, skipping copy...');
 }

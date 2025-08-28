@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 // Common CORS headers
 const corsHeaders = {
@@ -8,7 +8,7 @@ const corsHeaders = {
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
 };
 
-exports.handler = async function(event, context) {
+export const handler = async function(event, context) {
   // Handle CORS preflight
   if (event.httpMethod === 'OPTIONS') {
     return {
@@ -19,7 +19,16 @@ exports.handler = async function(event, context) {
   }
 
   // Path to the view count JSON file
-  const viewCountFilePath = path.join(process.cwd(), 'server', 'viewCount.json');
+  // For Netlify deployment, we need to use a different path structure
+  let viewCountFilePath;
+  
+  if (process.env.NETLIFY) {
+    // Running on Netlify - use the dist/server directory
+    viewCountFilePath = path.join(process.cwd(), 'dist', 'server', 'viewCount.json');
+  } else {
+    // Running locally with Netlify CLI - use the server directory
+    viewCountFilePath = path.join(process.cwd(), 'server', 'viewCount.json');
+  }
 
   try {
     if (event.httpMethod === 'GET') {
