@@ -164,14 +164,14 @@ Looking forward to connecting with you!
     {
       icon: MapPin,
       label: 'Location',
-      value: 'Darbhanga, Bihar, India',
+      value: 'Bengaluru,Karnataka, India',
       description: 'Open to remote, hybrid, or on-site work'
     },
     {
       icon: Calendar,
       label: 'Availability',
       value: 'Immediate',
-      description: 'Available for 4-6 month internships'
+      description: 'Available for Internships / Full-time roles'
     },
     {
       icon: Clock,
@@ -196,7 +196,7 @@ Looking forward to connecting with you!
     },
     {
       name: 'Portfolio',
-      url: '#',
+      url: 'https://priyanshudas.netlify.app/',
       description: 'Complete project showcase',
       color: 'bg-indigo-600'
     }
@@ -436,11 +436,7 @@ Looking forward to connecting with you!
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-600">Preferred Role:</span>
-                  <span className="font-semibold text-slate-900">Full-Stack Intern</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-600">Expected CTC:</span>
-                  <span className="font-semibold text-slate-900">7+ LPA</span>
+                  <span className="font-semibold text-slate-900">SDE/SRE</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-600">Notice Period:</span>
