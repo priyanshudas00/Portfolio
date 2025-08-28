@@ -4,13 +4,47 @@ import { Eye, Users } from 'lucide-react';
 const ViewCounter: React.FC = () => {
   const [viewCount, setViewCount] = useState(100); // Start from 100 as requested
   const [isVisible, setIsVisible] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Track view and update count
+  // Track view and update count using API
   useEffect(() => {
-    const totalViews = localStorage.getItem('total_views');
-    const newTotal = totalViews ? parseInt(totalViews) + 1 : 101; // Start from 101
-    localStorage.setItem('total_views', newTotal.toString());
-    setViewCount(newTotal);
+    const trackView = async () => {
+      try {
+        // First, increment the view count on the server
+        const incrementResponse = await fetch('http://localhost:3001/api/view-count', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (incrementResponse.ok) {
+          const incrementData = await incrementResponse.json();
+          
+          // Then, get the updated view count
+          const viewResponse = await fetch('http://localhost:3001/api/view-count');
+          if (viewResponse.ok) {
+            const viewData = await viewResponse.json();
+            setViewCount(viewData.totalViews);
+          } else {
+            console.error('Failed to fetch view count');
+          }
+        } else {
+          console.error('Failed to increment view count');
+        }
+      } catch (error) {
+        console.error('Error tracking view:', error);
+        // Fallback to localStorage if API fails
+        const totalViews = localStorage.getItem('total_views');
+        const newTotal = totalViews ? parseInt(totalViews) + 1 : 101;
+        localStorage.setItem('total_views', newTotal.toString());
+        setViewCount(newTotal);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    trackView();
   }, []);
 
   const formatCount = (count: number): string => {

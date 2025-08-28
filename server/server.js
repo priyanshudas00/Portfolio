@@ -7,7 +7,12 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
+const fs = require('fs');
+const path = require('path');
 const PORT = process.env.PORT || 3001;
+
+// Path to the view count JSON file
+const viewCountFilePath = path.join(__dirname, 'viewCount.json');
 
 // Middleware
 app.use(cors());
@@ -132,10 +137,38 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+app.get('/api/view-count', (req, res) => {
+  fs.readFile(viewCountFilePath, 'utf8', (err, data) => {
+    if (err) {
+      return res.status(500).json({ success: false, message: 'Error reading view count' });
+    }
+    const viewCount = JSON.parse(data);
+    res.status(200).json(viewCount);
+  });
+});
+
+app.post('/api/view-count', (req, res) => {
+  fs.readFile(viewCountFilePath, 'utf8', (err, data) => {
+    if (err) {
+      return res.status(500).json({ success: false, message: 'Error reading view count' });
+    }
+    const viewCount = JSON.parse(data);
+    viewCount.totalViews += 1; // Increment the view count
+    viewCount.lastUpdated = new Date().toISOString(); // Update the last updated time
+
+    fs.writeFile(viewCountFilePath, JSON.stringify(viewCount, null, 2), (err) => {
+      if (err) {
+        return res.status(500).json({ success: false, message: 'Error saving view count' });
+      }
+      res.status(200).json({ success: true, totalViews: viewCount.totalViews });
+    });
+  });
+});
 // Start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   console.log(`Email API available at: http://localhost:${PORT}/api/send-email`);
+  console.log(`View count API available at: http://localhost:${PORT}/api/view-count`);
 });
 
 module.exports = app;
