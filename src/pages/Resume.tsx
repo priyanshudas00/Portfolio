@@ -101,6 +101,7 @@ const Resume = () => {
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
             <a
               href="/media/resume/masterResume.pdf"
+              type="application/pdf"
               download="Priyanshu_Raj_Resume.pdf"
               className="inline-flex items-center px-6 py-3 bg-blue-600 text-white dark:bg-yellow-400 dark:text-slate-900 rounded-lg font-semibold hover:bg-blue-700 dark:hover:bg-yellow-500 transition-colors"
             >
@@ -283,6 +284,7 @@ const Resume = () => {
             </a>
             <a
               href="/media/resume/masterResume.pdf"
+              type="application/pdf"
               download="Priyanshu_Raj_Resume.pdf"
               className="inline-flex items-center px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-blue-600 transition-colors"
             >

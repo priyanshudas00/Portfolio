@@ -15,3 +15,10 @@
 
 # [context.production.environment]
 #   NODE_ENV = "production"
+
+# Headers for proper MIME types
+[[headers]]
+  for = "/*.pdf"
+  [headers.values]
+    Content-Type = "application/pdf"
+    Content-Disposition = "attachment"
