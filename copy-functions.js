@@ -45,3 +45,15 @@ if (existsSync(serverSourceDir)) {
 } else {
   console.log('Server directory not found, skipping copy...');
 }
+
+// Copy media directory to dist/media (for resume and other static assets)
+const mediaSourceDir = './src/media';
+const mediaDestDir = './dist/media';
+
+if (existsSync(mediaSourceDir)) {
+  console.log('Copying media files to dist directory...');
+  copyDir(mediaSourceDir, mediaDestDir);
+  console.log('Media files copied successfully!');
+} else {
+  console.log('Media directory not found, skipping copy...');
+}
