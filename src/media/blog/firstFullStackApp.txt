@@ -1,0 +1,10 @@
+Step-by-Step: Ship Your First Full-Stack App as a Student
+
+Author: Priyanshu Raj
+
+Copyright 2023 Priyanshu Raj. All rights reserved.
+Licensed under Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0).
+
+This is a placeholder text file for the PDF version of the blog post. In a real implementation, this would be a proper PDF conversion of the HTML content.
+
+[Blog content would go here...]

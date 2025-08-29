@@ -1,8 +1,63 @@
-import React from 'react';
-import { Calendar, Clock, ArrowRight, Code, Award } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Calendar, Clock, ArrowRight, Code, Award, X, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import FirstFullStackApp from './FirstFullStackApp';
+
+interface BlogPost {
+  title: string;
+  excerpt: string;
+  category: string;
+  readTime: string;
+  date: string;
+  tags: string[];
+  featured?: boolean;
+  image: string;
+  link?: string;
+  component?: React.ComponentType;
+}
 
 const Blog = () => {
+  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalContentRef = useRef<HTMLDivElement>(null);
+
+  const openModal = (post: BlogPost) => {
+    setSelectedPost(post);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedPost(null);
+  };
+
+  const downloadPDF = async () => {
+    if (modalContentRef.current && selectedPost) {
+      const canvas = await html2canvas(modalContentRef.current);
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgWidth = 210;
+      const pageHeight = 297;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      pdf.save(`${selectedPost.title}.pdf`);
+    }
+  };
+
   const blogPosts = [
     {
       title: "Building an AI Resume Analyzer: From Idea to MVP",
@@ -11,7 +66,8 @@ const Blog = () => {
       readTime: "15 min read",
       date: "Coming Soon",
       tags: ["AI/ML", "Next.js", "Product Development"],
-      featured: true
+      featured: true,
+      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
     },
     {
       title: "How I Built a Job Portal with Next.js + Supabase",
@@ -19,7 +75,8 @@ const Blog = () => {
       category: "Technical Deep Dive",
       readTime: "12 min read",
       date: "Coming Soon",
-      tags: ["Next.js", "Supabase", "Full-Stack"]
+      tags: ["Next.js", "Supabase", "Full-Stack"],
+      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
     },
     {
       title: "Winning AI4Community: SRE & Monitoring in 48 Hours",
@@ -28,7 +85,8 @@ const Blog = () => {
       readTime: "10 min read",
       date: "Coming Soon",
       tags: ["DevOps", "SRE", "Hackathon"],
-      featured: true
+      featured: true,
+      image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1120&q=80"
     },
     {
       title: "Route Research for Profitable Long-Distance Buses",
@@ -36,7 +94,8 @@ const Blog = () => {
       category: "Business Analysis",
       readTime: "8 min read",
       date: "Coming Soon",
-      tags: ["Business", "Research", "Logistics"]
+      tags: ["Business", "Research", "Logistics"],
+      image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
     },
     {
       title: "Step-by-Step: Ship Your First Full-Stack App as a Student",
@@ -44,7 +103,10 @@ const Blog = () => {
       category: "Student Guide",
       readTime: "20 min read",
       date: "Coming Soon",
-      tags: ["Tutorial", "Student Life", "Web Development"]
+      tags: ["Tutorial", "Student Life", "Web Development"],
+      link: "/blog/first-full-stack-app",
+      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+      component: FirstFullStackApp
     },
     {
       title: "Lessons Learned: Balancing College and Product Work",
@@ -52,7 +114,8 @@ const Blog = () => {
       category: "Personal Development",
       readTime: "7 min read",
       date: "Coming Soon",
-      tags: ["Productivity", "Student Life", "Career"]
+      tags: ["Productivity", "Student Life", "Career"],
+      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
     }
   ];
 
@@ -60,6 +123,69 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen py-20 bg-white dark:bg-gradient-to-br dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950">
+      {isModalOpen && selectedPost && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 p-4">
+          <div className="bg-white rounded-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto" ref={modalContentRef}>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold">{selectedPost.title}</h2>
+              <button onClick={closeModal} className="text-gray-500 hover:text-gray-700" title="Close the modal">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            {selectedPost.component ? (
+              // Render the custom component if it exists
+              <div className="prose max-w-none mb-6">
+                <selectedPost.component />
+              </div>
+            ) : (
+              <>
+                <div className="mb-6">
+                  <p className="text-sm text-gray-500 mb-2">
+                    <Calendar className="w-4 h-4 inline mr-1" />
+                    {selectedPost.date} | 
+                    <Clock className="w-4 h-4 inline mx-1" />
+                    {selectedPost.readTime}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {selectedPost.tags.map((tag, tagIndex) => (
+                      <span
+                        key={tagIndex}
+                        className="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-md"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="prose max-w-none mb-6">
+                  <p>{selectedPost.excerpt}</p>
+                  <p className="mt-4">Full article content would be displayed here...</p>
+                  <p className="mt-4">This is a placeholder for the complete article content.</p>
+                  <p className="mt-4">In a real implementation, this would show the entire article.</p>
+                </div>
+              </>
+            )}
+            <div className="flex justify-between mt-6">
+              <button 
+                onClick={downloadPDF}
+                className="flex items-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200"
+                title="Download the article as a PDF"
+              >
+                <Download className="w-5 h-5 mr-2" />
+                Download as PDF
+              </button>
+              <button 
+                onClick={closeModal}
+                className="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition duration-200"
+                title="Close the modal"
+              >
+                <X className="w-5 h-5 mr-2" />
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
         <div className="text-center mb-16">
@@ -122,6 +248,16 @@ const Blog = () => {
                   post.featured ? 'ring-2 ring-blue-200' : ''
                 }`}
               >
+                {post.image && (
+                  <div className="relative h-48 overflow-hidden">
+                    <img 
+                      src={post.image} 
+                      alt={post.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                  </div>
+                )}
                 <div className="p-6">
                   {post.featured && (
                     <div className="flex items-center mb-3">
@@ -166,10 +302,10 @@ const Blog = () => {
                       {post.date}
                     </div>
                     <button 
-                      className="text-blue-600 hover:text-blue-700 font-medium text-sm cursor-not-allowed opacity-50"
-                      disabled
+                      onClick={() => openModal(post)}
+                      className="text-blue-600 hover:text-blue-700 font-medium text-sm"
                     >
-                      Coming Soon
+                      Read Article
                     </button>
                   </div>
                 </div>

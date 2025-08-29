@@ -9,6 +9,7 @@ import Projects from './pages/Projects';
 import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 import Resume from './pages/Resume';
+import FirstFullStackApp from './pages/FirstFullStackApp';
 
 function App() {
   const [theme, setTheme] = useState('light');
@@ -57,7 +58,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/blog" element={<Blog />} />
-            <Route path="/resume" element={<Resume />} />
+            <Route path="/blog/first-full-stack-app" element={<FirstFullStackApp />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </main>
