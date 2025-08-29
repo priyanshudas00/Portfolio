@@ -60,6 +60,7 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/first-full-stack-app" element={<FirstFullStackApp />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/resume" element={<Resume />} />
           </Routes>
         </main>
         <Footer />
